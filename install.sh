@@ -21,4 +21,5 @@ cd nginx-1.14.0
 make && make install
 
 # clean up
-rm -rf nx-1.14.0/ nginx-1.14.0.tar.gz 
+cd ..
+rm -rf nginx-1.14.0/ nginx-1.14.0.tar.gz 
