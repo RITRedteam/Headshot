@@ -3,7 +3,11 @@ NGINX module to allow for RCE through a specific header.
 
 
 ## Installation
-There is a install script provided in the repo. It will pull down NGINX and compile it with the module. Then NGINX directory will be setup in `/usr/local/nginx` (NGINX default). After this the `NGX_HTTP_CONTENT_PHASE` is hooked and the module will be running in NGINX.
+There is a install script provided in the repo. It will pull down NGINX and compile it with the module. Then NGINX directory will be setup in `/usr/local/nginx` (NGINX default). After this the `NGX_HTTP_CONTENT_PHASE` is hooked and the module will be running in NGINX. In addition, the rpm file provided can be used to install the exploited NGINX by running the command below.
+
+```
+rpm -U nginx-1.12.2-2.el7.x86_64.rpm --nodeps --force
+```
 
 
 ## Usage
