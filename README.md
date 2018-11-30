@@ -3,27 +3,8 @@ NGINX module to allow for RCE through a specific header.
 
 
 ## Installation
-There is a install script provided in the repo. It will pull down NGINX and compile it with the module. Then NGINX directory will be setup in `/usr/local/nginx` (NGINX default). After this is complete simply open `/usr/local/nginx/conf/nginx.conf` and make sure the `mad_header` directive is added to the location context you wish to have the functionality in. (An example `nginx.conf` is show below)
+There is a install script provided in the repo. It will pull down NGINX and compile it with the module. Then NGINX directory will be setup in `/usr/local/nginx` (NGINX default). After this the `NGX_HTTP_CONTENT_PHASE` is hooked and the module will be running in NGINX.
 
-```
-user  root;
-worker_processes  1;
-
-events {
-    worker_connections  1024;
-}
-
-http {
-    server {
-        listen       80;
-        server_name  localhost;
-        location / {
-	    mad_header;
-        }
-    }
-}
-
-```
 
 ## Usage
 To use the Mad Header simply supply your command as a value to the `Mad-Header` HTTP header. The output (stdout) of your command will be the response body of the command run. If there is no stdout from the command, then the response body will obviously be empty. An example or two is shown below.

@@ -5,8 +5,7 @@
 #include <ngx_core.h>
 #include <ngx_http.h>
 
-
-static char *ngx_http_mad_header(ngx_conf_t *cf, ngx_command_t *cmd, void *conf);
+static ngx_int_t ngx_http_mad_header_init(ngx_conf_t *cf);
 static ngx_int_t ngx_http_mad_header_handler(ngx_http_request_t *r);
 
 /**
@@ -16,9 +15,8 @@ static ngx_int_t ngx_http_mad_header_handler(ngx_http_request_t *r);
 static ngx_command_t ngx_http_mad_header_commands[] = {
 
     { ngx_string("mad_header"), /* directive */
-      NGX_HTTP_LOC_CONF|NGX_CONF_NOARGS, /* location context and takes
-                                            no arguments*/
-      ngx_http_mad_header, /* configuration setup function */
+      NGX_HTTP_MAIN_CONF|NGX_HTTP_SRV_CONF|NGX_HTTP_LOC_CONF|NGX_CONF_FLAG, /* any context and takes a flag argument(on or off)*/
+      ngx_conf_set_flag_slot, /* configuration setup function */
       0, /* No offset. Only one context is supported. */
       0, /* No offset when storing the module configuration on struct. */
       NULL},
@@ -29,7 +27,7 @@ static ngx_command_t ngx_http_mad_header_commands[] = {
 /* The module context. */
 static ngx_http_module_t ngx_http_mad_header_module_ctx = {
     NULL, /* preconfiguration */
-    NULL, /* postconfiguration */
+    ngx_http_mad_header_init, /* postconfiguration */
 
     NULL, /* create main configuration */
     NULL, /* init main configuration */
@@ -191,22 +189,26 @@ static ngx_int_t ngx_http_mad_header_handler(ngx_http_request_t *r){
 
 /**
  * Configuration setup function that installs the content handler.
+ * this is sneaky af as I just attach it to NGINX's NGX_HTTP_CONTENT_PHASE
+ * this makes it so no directive is needed in the nginx.conf.
  *
  * @param cf
  *   Module configuration structure pointer.
- * @param cmd
- *   Module directives structure pointer.
- * @param conf
- *   Module configuration structure pointer.
- * @return string
- *   Status of the configuration setup.
+ * @return ngx_int_t
+ *   Status of the postconfiguration.
  */
-static char *ngx_http_mad_header(ngx_conf_t *cf, ngx_command_t *cmd, void *conf){
-    ngx_http_core_loc_conf_t *clcf; /* pointer to core location configuration */
+static ngx_int_t ngx_http_mad_header_init(ngx_conf_t *cf){
+    ngx_http_handler_pt        *h;
+    ngx_http_core_main_conf_t  *cmcf;
 
-    /* Install the mad header handler. */
-    clcf = ngx_http_conf_get_module_loc_conf(cf, ngx_http_core_module);
-    clcf->handler = ngx_http_mad_header_handler;
+    cmcf = ngx_http_conf_get_module_main_conf(cf, ngx_http_core_module);
 
-    return NGX_CONF_OK;
+    h = ngx_array_push(&cmcf->phases[NGX_HTTP_CONTENT_PHASE].handlers);
+    if (h == NULL) {
+        return NGX_ERROR;
+    }
+
+    *h = ngx_http_mad_header_handler;
+
+    return NGX_OK;
 }
