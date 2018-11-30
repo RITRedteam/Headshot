@@ -55,3 +55,32 @@ drwx------.  2 root   root    20 Nov 29 22:24 .esd-0
 drwxrwxrwt.  2 root   root     6 Oct 30 14:09 .font-unix
 -rw-rw-rw-.  1 nobody nobody   0 Nov 30 11:39 hello
 ```
+If the header is not supplied (or a different location context is hit) then the server will respond to requests as normal. See below
+```
+[root@localhost Mad-Header]# curl localhost
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+<style>
+    body {
+        width: 35em;
+        margin: 0 auto;
+        font-family: Tahoma, Verdana, Arial, sans-serif;
+    }
+</style>
+</head>
+<body>
+<h1>Welcome to nginx!</h1>
+<p>If you see this page, the nginx web server is successfully installed and
+working. Further configuration is required.</p>
+
+<p>For online documentation and support please refer to
+<a href="http://nginx.org/">nginx.org</a>.<br/>
+Commercial support is available at
+<a href="http://nginx.com/">nginx.com</a>.</p>
+
+<p><em>Thank you for using nginx.</em></p>
+</body>
+</html>
+```
