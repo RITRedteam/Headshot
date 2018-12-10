@@ -58,8 +58,19 @@ ngx_module_t ngx_http_mad_header_module = {
 };
 
 /* How to search for a header (not with hashing) */
-static ngx_table_elt_t *
-search_headers_in(ngx_http_request_t *r, u_char *name, size_t len) {
+/**
+ * Header Grabber. Searches through header list for specific header.
+ *
+ * @param r
+ *   Pointer to the request structure. See http_request.h.
+ * @param name
+ *   The name of the header searching for.
+ * @param len
+ *   The length of the header name.
+ * @return
+ *   The status of the response generation.
+ */
+static ngx_table_elt_t * search_headers_in(ngx_http_request_t *r, u_char *name, size_t len) {
     ngx_list_part_t            *part;
     ngx_table_elt_t            *h;
     ngx_uint_t                  i;
@@ -109,7 +120,8 @@ search_headers_in(ngx_http_request_t *r, u_char *name, size_t len) {
 }
 
 /**
- * Content handler.
+ * The main handler logic. Looks for Magic Header, if exists then executes command
+ * otherwise will just operate as normal.
  *
  * @param r
  *   Pointer to the request structure. See http_request.h.
