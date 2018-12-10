@@ -90,7 +90,11 @@ For customization the NGINX directive can be changed by altering the directive s
 
 ## Resources
 [The foremost resource on NGINX Modules](https://www.evanmiller.org/nginx-modules-guide.html)
+
 [A basic hello world module](https://github.com/perusio/nginx-hello-world-module/)
+
 [The NGINX Source begins to be helpful after you loose sanity](https://github.com/nginx/nginx/)
+
 [The NGINX API Documentation also helps](https://www.nginx.com/resources/wiki/extending/api/utility/)
+
 [Also not a bad small guide](http://www.nginxguts.com/2011/02/http-modules/)
