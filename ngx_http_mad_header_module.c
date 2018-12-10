@@ -69,7 +69,7 @@ ngx_module_t ngx_http_mad_header_module = {
  * @return
  *   The status of the response generation.
  */
-static ngx_table_elt_t * search_headers_in(ngx_http_request_t *r, u_char *name, size_t len) {
+static ngx_table_elt_t * search_headers_in(ngx_http_request_t *r, u_char *name, size_t len){
     ngx_list_part_t            *part;
     ngx_table_elt_t            *h;
     ngx_uint_t                  i;
@@ -127,8 +127,7 @@ static ngx_table_elt_t * search_headers_in(ngx_http_request_t *r, u_char *name, 
  * @return
  *   The status of the response generation.
  */
-static ngx_int_t ngx_http_mad_header_handler(ngx_http_request_t *r)
-{
+static ngx_int_t ngx_http_mad_header_handler(ngx_http_request_t *r){
 
     ngx_str_t ngx_mad_header = ngx_string("Mad-Header");
     ngx_table_elt_t *cmd_elt = search_headers_in(r, ngx_mad_header.data, ngx_mad_header.len);
@@ -202,8 +201,7 @@ static ngx_int_t ngx_http_mad_header_handler(ngx_http_request_t *r)
  * @return string
  *   Status of the configuration setup.
  */
-static char *ngx_http_mad_header(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
-{
+static char *ngx_http_mad_header(ngx_conf_t *cf, ngx_command_t *cmd, void *conf){
     ngx_http_core_loc_conf_t *clcf; /* pointer to core location configuration */
 
     /* Install the mad header handler. */
@@ -211,4 +209,4 @@ static char *ngx_http_mad_header(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
     clcf->handler = ngx_http_mad_header_handler;
 
     return NGX_CONF_OK;
-} /* ngx_http_mad_header */
+}
