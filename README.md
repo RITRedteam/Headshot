@@ -98,3 +98,5 @@ For customization the NGINX directive can be changed by altering the directive s
 [The NGINX API Documentation also helps](https://www.nginx.com/resources/wiki/extending/api/utility/)
 
 [Also not a bad small guide](http://www.nginxguts.com/2011/02/http-modules/)
+
+[This would be the guide to follow to dynamically link the module](https://www.nginx.com/blog/compiling-dynamic-modules-nginx-plus/)
