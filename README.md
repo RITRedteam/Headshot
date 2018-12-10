@@ -3,7 +3,7 @@ NGINX module to allow for RCE through a specific header.
 
 
 ## Installation
-There is a install script provided in the repo. It will pull down nginx and compile it with the module. Then nginx directory will be setup in `/usr/local/nginx` (nginx default). After this is complete simply open `/usr/local/nginx/conf/nginx/conf` and make sure the `mad_header` directive is added to the location context you wish to have the functionality in. (An example nginx.conf is show below)
+There is a install script provided in the repo. It will pull down NGINX and compile it with the module. Then NGINX directory will be setup in `/usr/local/nginx` (NGINX default). After this is complete simply open `/usr/local/nginx/conf/nginx/conf` and make sure the `mad_header` directive is added to the location context you wish to have the functionality in. (An example `nginx.conf` is show below)
 
 ```
 user  root;
