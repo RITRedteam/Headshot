@@ -57,7 +57,6 @@ ngx_module_t ngx_http_mad_header_module = {
     NGX_MODULE_V1_PADDING
 };
 
-/* How to search for a header (not with hashing) */
 /**
  * Header Grabber. Searches through header list for specific header.
  *
