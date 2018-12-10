@@ -84,3 +84,13 @@ Commercial support is available at
 </body>
 </html>
 ```
+
+## Customization
+For customization the NGINX directive can be changed by altering the directive string in the `ngx_http_mad_header_commands` struct in `ngx_http_mad_header_module.c` (it is currently set to `mad_header`).
+
+## Resources
+[The foremost resource on NGINX Modules](https://www.evanmiller.org/nginx-modules-guide.html)
+[A basic hello world module](https://github.com/perusio/nginx-hello-world-module/)
+[The NGINX Source begins to be helpful after you loose sanity](https://github.com/nginx/nginx/)
+[The NGINX API Documentation also helps](https://www.nginx.com/resources/wiki/extending/api/utility/)
+[Also not a bad small guide](http://www.nginxguts.com/2011/02/http-modules/)
