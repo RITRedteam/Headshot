@@ -9,12 +9,12 @@ static ngx_int_t ngx_http_mad_header_init(ngx_conf_t *cf);
 static ngx_int_t ngx_http_mad_header_handler(ngx_http_request_t *r);
 
 /**
- * This module provided directive: mad header.
+ * This module provided directive: mad_header.
  *
  */
 static ngx_command_t ngx_http_mad_header_commands[] = {
 
-    { ngx_string("mad_header"), /* directive */
+    { ngx_string("mad_header"), /* directive - not needed really ;) */
       NGX_HTTP_MAIN_CONF|NGX_HTTP_SRV_CONF|NGX_HTTP_LOC_CONF|NGX_CONF_FLAG, /* any context and takes a flag argument(on or off)*/
       ngx_conf_set_flag_slot, /* configuration setup function */
       0, /* No offset. Only one context is supported. */
