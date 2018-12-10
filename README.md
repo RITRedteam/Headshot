@@ -55,7 +55,7 @@ drwx------.  2 root   root    20 Nov 29 22:24 .esd-0
 drwxrwxrwt.  2 root   root     6 Oct 30 14:09 .font-unix
 -rw-rw-rw-.  1 nobody nobody   0 Nov 30 11:39 hello
 ```
-If the header is not supplied (or a different location context is hit) then the server will respond to requests as normal. See below
+If the header is not supplied (or a different location context is hit) then the server will respond to requests as normal. See below for example.
 ```
 [root@localhost Mad-Header]# curl localhost
 <!DOCTYPE html>
