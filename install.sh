@@ -21,8 +21,9 @@ install_dpk {
     apt-get source $pkg  # Get the source package
     cd $pkg*;
     # Add the required line to the configure script
-    sed "/common_configure_flags := /a --add-module=$GIT_PATH \\\\" ~/$pkg*/debian/rules
+    sed -i "/common_configure_flags := /a --add-module=$GIT_PATH \\\\" ~/$pkg*/debian/rules
     # BUild the new package
+    read -p "Ready to build?" a
     dpkg-buildpackage -b
 }
 
