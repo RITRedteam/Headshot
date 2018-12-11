@@ -2,7 +2,7 @@
 GIT_PATH=`pwd`  # Get the location of the mad-header directory
 pkg="nginx"
 
-install_dpk {
+install_dpk() {
     # Check we are using an apt system
     com=`command -v apt`
     if [ "$com" == "" ]; then
