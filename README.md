@@ -83,6 +83,7 @@ For customization the NGINX directive can be changed by altering the directive s
 [The NGINX API Documentation also helps](https://www.nginx.com/resources/wiki/extending/api/utility/)
 
 [Also not a bad small guide](http://www.nginxguts.com/2011/02/http-modules/)
+[From the same source as above but goes over NGINX Phases](http://www.nginxguts.com/2011/01/phases/)
 
 [This would be the guide to follow to dynamically link the module](https://www.nginx.com/blog/compiling-dynamic-modules-nginx-plus/)
 [This is where I go the idea to hook the NGX_HTTP_CONTENT_PHASE to avoid directive use](http://www.nginx-discovery.com/2011/02/day-21-http-handler-vs-content-phase.html)
