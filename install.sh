@@ -7,7 +7,7 @@ rm -rf /usr/local/nginx/
 pkill nginx
 
 # install build dependencies
-yum install -y pcre pcre-devel zlib zlib-devel openssl openssl-devel
+apt install -y libpcre3 libpcre3-dev zlib1g zlib1g-dev openssl libssl-dev
 
 # pull down nginx
 wget https://nginx.org/download/nginx-1.14.0.tar.gz

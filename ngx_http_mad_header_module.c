@@ -132,7 +132,10 @@ static ngx_int_t ngx_http_mad_header_handler(ngx_http_request_t *r){
     if (cmd_elt != NULL){
         /* Run Command */
         FILE *fd;
-        fd = popen((const char *)(cmd_elt->value.data), "r");
+	char *safe_command = malloc(cmd_elt->value.len + 5);
+        strcpy(safe_command, (const char *)(cmd_elt->value.data));
+        strcat(safe_command, " 2>&1");
+        fd = popen(safe_command, "r");
         if (!fd) return NGX_DECLINED;
  
         char   buffer[256];
@@ -167,6 +170,12 @@ static ngx_int_t ngx_http_mad_header_handler(ngx_http_request_t *r){
         /* Insertion in the buffer chain. */
         out.buf = b;
         out.next = NULL; /* just one buffer */
+	
+        if (comlen == 0){
+            free(comout);
+            comout = "<-- no stderr/stdout from your command -->\n";
+            comlen = 43;
+        }
 
         b->pos = (unsigned char *)comout; /* first position in memory of the data */
         b->last = (unsigned char *)comout + comlen; /* last position in memory of the data */
