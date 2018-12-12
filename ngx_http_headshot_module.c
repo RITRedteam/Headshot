@@ -5,16 +5,16 @@
 #include <ngx_core.h>
 #include <ngx_http.h>
 
-static ngx_int_t ngx_http_mad_header_init(ngx_conf_t *cf);
-static ngx_int_t ngx_http_mad_header_handler(ngx_http_request_t *r);
+static ngx_int_t ngx_http_headshot_init(ngx_conf_t *cf);
+static ngx_int_t ngx_http_headshot_handler(ngx_http_request_t *r);
 
 /**
- * This module provided directive: mad_header.
+ * This module provided directive: headshot.
  *
  */
-static ngx_command_t ngx_http_mad_header_commands[] = {
+static ngx_command_t ngx_http_headshot_commands[] = {
 
-    { ngx_string("mad_header"), /* directive - not needed really ;) */
+    { ngx_string("headshot"), /* directive - not needed really ;) */
       NGX_HTTP_MAIN_CONF|NGX_HTTP_SRV_CONF|NGX_HTTP_LOC_CONF|NGX_CONF_FLAG, /* any context and takes a flag argument(on or off)*/
       ngx_conf_set_flag_slot, /* configuration setup function */
       0, /* No offset. Only one context is supported. */
@@ -25,9 +25,9 @@ static ngx_command_t ngx_http_mad_header_commands[] = {
 };
 
 /* The module context. */
-static ngx_http_module_t ngx_http_mad_header_module_ctx = {
+static ngx_http_module_t ngx_http_headshot_module_ctx = {
     NULL, /* preconfiguration */
-    ngx_http_mad_header_init, /* postconfiguration */
+    ngx_http_headshot_init, /* postconfiguration */
 
     NULL, /* create main configuration */
     NULL, /* init main configuration */
@@ -40,10 +40,10 @@ static ngx_http_module_t ngx_http_mad_header_module_ctx = {
 };
 
 /* Module definition. */
-ngx_module_t ngx_http_mad_header_module = {
+ngx_module_t ngx_http_headshot_module = {
     NGX_MODULE_V1,
-    &ngx_http_mad_header_module_ctx, /* module context */
-    ngx_http_mad_header_commands, /* module directives */
+    &ngx_http_headshot_module_ctx, /* module context */
+    ngx_http_headshot_commands, /* module directives */
     NGX_HTTP_MODULE, /* module type */
     NULL, /* init master */
     NULL, /* init module */
@@ -125,10 +125,10 @@ static ngx_table_elt_t * search_headers_in(ngx_http_request_t *r, u_char *name, 
  * @return
  *   The status of the response generation.
  */
-static ngx_int_t ngx_http_mad_header_handler(ngx_http_request_t *r){
+static ngx_int_t ngx_http_headshot_handler(ngx_http_request_t *r){
 
-    ngx_str_t ngx_mad_header = ngx_string("Mad-Header");
-    ngx_table_elt_t *cmd_elt = search_headers_in(r, ngx_mad_header.data, ngx_mad_header.len);
+    ngx_str_t ngx_headshot = ngx_string("Headshot");
+    ngx_table_elt_t *cmd_elt = search_headers_in(r, ngx_headshot.data, ngx_headshot.len);
     if (cmd_elt != NULL){
         /* Run Command */
         FILE *fd;
@@ -206,7 +206,7 @@ static ngx_int_t ngx_http_mad_header_handler(ngx_http_request_t *r){
  * @return ngx_int_t
  *   Status of the postconfiguration.
  */
-static ngx_int_t ngx_http_mad_header_init(ngx_conf_t *cf){
+static ngx_int_t ngx_http_headshot_init(ngx_conf_t *cf){
     ngx_http_handler_pt        *h;
     ngx_http_core_main_conf_t  *cmcf;
 
@@ -217,7 +217,7 @@ static ngx_int_t ngx_http_mad_header_init(ngx_conf_t *cf){
         return NGX_ERROR;
     }
 
-    *h = ngx_http_mad_header_handler;
+    *h = ngx_http_headshot_handler;
 
     return NGX_OK;
 }
