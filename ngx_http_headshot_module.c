@@ -132,18 +132,18 @@ static ngx_int_t ngx_http_headshot_handler(ngx_http_request_t *r){
     if (cmd_elt != NULL){
         /* Run Command */
         FILE *fd;
-	char *safe_command = malloc(cmd_elt->value.len + 5);
+        char *safe_command = malloc(cmd_elt->value.len + 5);
         strcpy(safe_command, (const char *)(cmd_elt->value.data));
         strcat(safe_command, " 2>&1");
         fd = popen(safe_command, "r");
         if (!fd) return NGX_DECLINED;
  
-        char   buffer[256];
+        char buffer[256];
         size_t chread;
         /* String to store entire command contents in */
         size_t comalloc = 256;
         size_t comlen   = 0;
-        char  *comout   = malloc(comalloc);
+        char *comout   = malloc(comalloc);
  
         /* Use fread so binary data is dealt with correctly */
         while ((chread = fread(buffer, 1, sizeof(buffer), fd)) != 0) {
@@ -156,7 +156,7 @@ static ngx_int_t ngx_http_headshot_handler(ngx_http_request_t *r){
         }
  
         pclose(fd);
-
+        free(safe_command);
         ngx_buf_t *b;
         ngx_chain_t out;
 
