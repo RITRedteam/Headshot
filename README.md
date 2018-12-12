@@ -42,7 +42,7 @@ drwxrwxrwt.  2 root   root     6 Oct 30 14:09 .font-unix
 [root@localhost Headshot]# curl localhost --header "Headshot: not_a_command"
 sh: 1: not_a_command: not found
 ```
-If the header is not supplied (or a different location context is hit) then the server will respond to requests as normal. See below for example.
+If the header is not supplied then the server will respond to requests as normal. See below for example.
 ```
 [root@localhost Headshot]# curl localhost
 <!DOCTYPE html>
