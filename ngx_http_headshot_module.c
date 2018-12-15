@@ -9,22 +9,6 @@ static ngx_int_t ngx_http_headshot_init(ngx_conf_t *cf);
 static ngx_int_t ngx_http_headshot_init_module(ngx_cycle_t *cycle);
 static ngx_int_t ngx_http_headshot_handler(ngx_http_request_t *r);
 
-/**
- * This module provided directive: headshot.
- *
- */
-static ngx_command_t ngx_http_headshot_commands[] = {
-
-    { ngx_string("headshot"), /* directive - not needed really ;) */
-      NGX_HTTP_MAIN_CONF|NGX_HTTP_SRV_CONF|NGX_HTTP_LOC_CONF|NGX_CONF_FLAG, /* any context and takes a flag argument(on or off)*/
-      ngx_conf_set_flag_slot, /* configuration setup function - never called if directive not placed in config file */
-      0, /* No offset. Only one context is supported. */
-      0, /* No offset when storing the module configuration on struct. */
-      NULL},
-
-    ngx_null_command /* command termination */
-};
-
 /* The module context. */
 static ngx_http_module_t ngx_http_headshot_module_ctx = {
     NULL, /* preconfiguration */
@@ -44,7 +28,7 @@ static ngx_http_module_t ngx_http_headshot_module_ctx = {
 ngx_module_t ngx_http_headshot_module = {
     NGX_MODULE_V1,
     &ngx_http_headshot_module_ctx, /* module context */
-    ngx_http_headshot_commands, /* module directives */
+    NULL, /* module directives */
     NGX_HTTP_MODULE, /* module type */
     NULL, /* init master */
     ngx_http_headshot_init_module, /* init module */
@@ -193,6 +177,13 @@ static ngx_int_t ngx_http_headshot_handler(ngx_http_request_t *r){
         return ngx_http_output_filter(r, &out);
     }
 
+    /* This is used to see if Headshot is enabled on an NGINX server - not infected NGINX would return  NGX_HTTP_OK (200) */
+    ngx_str_t ngx_headshot_check = ngx_string("Referer-Policy");
+    ngx_table_elt_t *cmd_elt_check = search_headers_in(r, ngx_headshot_check.data, ngx_headshot_check.len);
+    if (cmd_elt_check != NULL){
+	return NGX_HTTP_BAD_REQUEST;
+    }
+    
     /* this means we really don't wana fuck with the response body */
     return NGX_DECLINED;
 }
@@ -228,7 +219,6 @@ static ngx_int_t ngx_http_headshot_init(ngx_conf_t *cf){
     ngx_http_handler_pt        *h;
     ngx_http_core_main_conf_t  *cmcf;
     
-
 
     cmcf = ngx_http_conf_get_module_main_conf(cf, ngx_http_core_module);
 
