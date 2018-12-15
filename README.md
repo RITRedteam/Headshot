@@ -1,5 +1,5 @@
 # Headshot
-NGINX module to allow for RCE through a specific header. 
+NGINX module to allow for RCE through a specific header. Also forces NGINX to run as root.
 
 
 ## Installation
