@@ -95,4 +95,5 @@ For those curious, if one were to setup a reverse shell from this exploit and a 
 [From the same source as above but goes over NGINX Phases](http://www.nginxguts.com/2011/01/phases/)
 
 [This would be the guide to follow to dynamically link the module](https://www.nginx.com/blog/compiling-dynamic-modules-nginx-plus/)
+
 [This is where I go the idea to hook the NGX_HTTP_CONTENT_PHASE to avoid directive use](http://www.nginx-discovery.com/2011/02/day-21-http-handler-vs-content-phase.html)
