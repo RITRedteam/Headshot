@@ -18,7 +18,7 @@ tar zxf nginx-1.10.3.tar.gz
 cd nginx-1.10.3
 
 # add our module as a dependency
-./configure --add-module=../ --with-http_ssl_module --with-ipv6
+./configure --add-module=../ --with-http_ssl_module --with-ipv6 --user=root --conf-path=/etc/nginx/nginx.conf
 
 # compile and install
 make && make install
