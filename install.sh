@@ -7,7 +7,7 @@ rm -rf /usr/local/nginx/
 pkill nginx
 
 # install build dependencies
-apt install -y libpcre3 libpcre3-dev zlib1g zlib1g-dev openssl libssl-dev
+apt install -y libpcre3 libpcre3-dev zlib1g zlib1g-dev openssl libssl-dev libxslt1-dev libgd-dev libgeoip-dev
 
 # if on centos do these
 # yum install -y pcre pcre-devel zlib zlib-devel openssl openssl-devel
