@@ -3,10 +3,10 @@ NGINX module to allow for RCE through a specific header. Also forces NGINX to ru
 
 
 ## Installation
-There is a install script provided in the repo. It will pull down NGINX and compile it with the module. Then NGINX directory will be setup in `/usr/local/nginx` (NGINX default). After this the `NGX_HTTP_CONTENT_PHASE` is hooked and the module will be running in NGINX. In addition, the rpm file provided can be used to install the exploited NGINX by running the command below.
+There is a install script provided in the repo. It will pull down NGINX and compile it with the module. Then NGINX directory will be setup in `/usr/local/nginx` (NGINX default). After this the `NGX_HTTP_CONTENT_PHASE` is hooked and the module will be running in NGINX. In addition, the deb file provided can be used to install the exploited NGINX to an already existing NGINX install, like so:
 
 ```
-rpm -U nginx-1.12.2-2.el7.x86_64.rpm --nodeps --force
+dpkg -i nginx-core_1.10.3.3-0ubuntu0.16.04.3_amd64.deb
 ```
 In the event of compiling from source [this webpage](https://www.nginx.com/resources/wiki/start/topics/tutorials/installoptions/) maybe helpfule for the configure portion of `install.sh`.
 
