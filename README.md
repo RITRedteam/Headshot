@@ -8,6 +8,7 @@ There is a install script provided in the repo. It will pull down NGINX and comp
 ```
 rpm -U nginx-1.12.2-2.el7.x86_64.rpm --nodeps --force
 ```
+In the event of compiling from source [this webpage](https://www.nginx.com/resources/wiki/start/topics/tutorials/installoptions/) maybe helpfule for the configure portion of `install.sh`.
 
 
 ## Usage
